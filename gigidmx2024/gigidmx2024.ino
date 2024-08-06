@@ -1,6 +1,6 @@
 #define BUTTON_1A D1
 #define BUTTON_2A D2
-#define BUTTON_3A D3
+#define BUTTON_3A D0
 #define BUTTON_1B D5
 #define BUTTON_2B D6
 #define BUTTON_3B D7
