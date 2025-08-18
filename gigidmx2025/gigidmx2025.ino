@@ -1,7 +1,8 @@
 #include <ESP8266WiFi.h>
 
 // Access Point credentials
-const char *ssid = "ATSBUTTONS";
+//const char *ssid = "ATSBUTTONS2";
+const char *ssid = "ATSBUTTONS3";
 const char *password = "12345678"; // must be at least 8 chars
 
 
