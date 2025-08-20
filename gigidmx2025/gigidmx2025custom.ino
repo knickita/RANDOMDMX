@@ -1,17 +1,13 @@
 #include <ESP8266WiFi.h>
 
 // Access Point credentials
-//const char *ssid = "ATSBUTTONS2";
-const char *ssid = "ATSBUTTONS3";
+const char *ssid = "ATSBUTTONS1";
 const char *password = "12345678"; // must be at least 8 chars
 
 
-#define BUTTON_1A D1
-#define BUTTON_2A D2
-#define BUTTON_3A D0
-#define BUTTON_1B D5
-#define BUTTON_2B D6
-#define BUTTON_3B D7
+#define BUTTON_1B D6
+#define BUTTON_2B D7
+#define BUTTON_3B D5
 
 #define dmxChannelQuantity  32 //max 512
 
@@ -45,9 +41,6 @@ void setup() {
   pinMode(sendPin2, OUTPUT);
 
   //setup buttons
-  pinMode(BUTTON_1A, INPUT);  
-  pinMode(BUTTON_2A, INPUT);
-  pinMode(BUTTON_3A, INPUT);
   pinMode(BUTTON_1B, INPUT);
   pinMode(BUTTON_2B, INPUT);
   pinMode(BUTTON_3B, INPUT);
@@ -58,12 +51,9 @@ void loop(){
   handleRequest ();
 
   //set DMX values  
-  dmxData1[1] = digitalRead(BUTTON_1A)*255;
-  dmxData1[2] = digitalRead(BUTTON_2A)*255;
-  dmxData1[3] = digitalRead(BUTTON_3A)*255;
-  dmxData2[1] = digitalRead(BUTTON_1B)*255;
-  dmxData2[2] = digitalRead(BUTTON_2B)*255;
-  dmxData2[3] = digitalRead(BUTTON_3B)*255;
+  dmxData2[1] = (1 - digitalRead(BUTTON_1B))*255;
+  dmxData2[2] = (1 - digitalRead(BUTTON_2B))*255;
+  dmxData2[3] = (1 - digitalRead(BUTTON_3B))*255;
   updateDMX();
 }
 
@@ -83,12 +73,9 @@ void handleRequest(){
  
   if (request.indexOf("/state") != -1) {
     String info = "";
-    info += String("Button 1A: ") + (digitalRead(BUTTON_1A) == LOW ? "RILASCIATO" : "PREMUTO") + "<br>";
-    info += String("Button 2A: ") + (digitalRead(BUTTON_2A) == LOW ? "RILASCIATO" : "PREMUTO") + "<br>";
-    info += String("Button 3A: ") + (digitalRead(BUTTON_3A) == LOW ? "RILASCIATO" : "PREMUTO") + "<br>";
-    info += String("Button 1B: ") + (digitalRead(BUTTON_1B) == LOW ? "RILASCIATO" : "PREMUTO") + "<br>";
-    info += String("Button 2B: ") + (digitalRead(BUTTON_2B) == LOW ? "RILASCIATO" : "PREMUTO") + "<br>";
-    info += String("Button 3B: ") + (digitalRead(BUTTON_3B) == LOW ? "RILASCIATO" : "PREMUTO") + "<br>";
+    info += String("Button 1B: ") + (digitalRead(BUTTON_1B) == HIGH ? "RILASCIATO" : "PREMUTO") + "<br>";
+    info += String("Button 2B: ") + (digitalRead(BUTTON_2B) == HIGH ? "RILASCIATO" : "PREMUTO") + "<br>";
+    info += String("Button 3B: ") + (digitalRead(BUTTON_3B) == HIGH ? "RILASCIATO" : "PREMUTO") + "<br>";
 
     String json = "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n\r\n";
     json += "{\"status\":\"";
